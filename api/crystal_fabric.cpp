@@ -1,6 +1,6 @@
 #include "api.hpp"
 
-namespace mcapi
+namespace crystal
 {
 
 namespace fabric
@@ -162,7 +162,7 @@ std::optional<std::string> GetLoaderJson(const std::string& loaderjson, const st
 {
     try
     {
-        const std::string diskpath = ".mcapi/versions/" + versionid + "-fabric-loader-" + loaderid + "/" + versionid + "-fabric-loader-" + loaderid + ".json";
+        const std::string diskpath = ".crystal/versions/" + versionid + "-fabric-loader-" + loaderid + "/" + versionid + "-fabric-loader-" + loaderid + ".json";
         if (fs::exists(diskpath) && fs::file_size(diskpath) > 0)
         {
             std::ifstream file(diskpath, std::ios::binary);
@@ -191,20 +191,20 @@ std::optional<std::string> GetLoaderJson(const std::string& loaderjson, const st
 
         std::string parentid = j["inheritsFrom"];
 
-        auto manifest = mcapi::vanilla::DownloadVersionManifest();
+        auto manifest = crystal::vanilla::DownloadVersionManifest();
         if (!manifest)
         {
             return std::nullopt;
         }
 
-        auto parenturl = mcapi::vanilla::GetVersionJsonDownloadUrl(*manifest, parentid);
+        auto parenturl = crystal::vanilla::GetVersionJsonDownloadUrl(*manifest, parentid);
         if (!parenturl)
         {
             return std::nullopt;
         }
 
         std::string parentjsonid = versionid + "-fabric-loader-vanilla-" + loaderid;
-        auto parentjson = mcapi::vanilla::DownloadVersionJson(parenturl.value(), parentjsonid);
+        auto parentjson = crystal::vanilla::DownloadVersionJson(parenturl.value(), parentjsonid);
         if (!parentjson)
         {
             return std::nullopt;

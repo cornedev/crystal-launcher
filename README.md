@@ -3,7 +3,7 @@
 # crystal launcher
 A lightweight minecraft launcher.
 
-The goal of this project is to create a lightweight launcher that can be used anywhere. 
+The goal of this project is to create a lightweight launcher that can be used anywhere & for myself to learn more about this. 
 
 This was started as a school project to play Minecraft at school because everything was blocked, so I made this alongside the possibilities in our school. 
 

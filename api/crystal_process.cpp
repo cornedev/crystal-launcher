@@ -1,6 +1,6 @@
 #include "api.hpp"
 
-namespace mcapi
+namespace crystal
 {
 
 bool StartProcess(const std::string& javapath, const std::string& args, OS os, Processhandle* process, bool qt)

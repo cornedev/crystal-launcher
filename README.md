@@ -1,9 +1,11 @@
 <p align="center"><img width="256px" src="gfx/crystal.png"></p>
 
 # crystal launcher
-A library for downloading minecraft assets & lightweight minecraft launcher.
+A lightweight minecraft launcher.
 
-The goal of this project is to create a lightweight launcher that can be used anywhere. This was started as a school project to play Minecraft at school because everything was blocked, so I made this alongside the possibilities in our school. 
+The goal of this project is to create a lightweight launcher that can be used anywhere. 
+
+This was started as a school project to play Minecraft at school because everything was blocked, so I made this alongside the possibilities in our school. 
 
 Download the latest builds at the [builds branch](https://github.com/cornedev/mcapi/tree/builds).
 

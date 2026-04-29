@@ -491,7 +491,6 @@ bool gui::StartVersion(const QString &username, const QString &loaderselected, c
             return false;
         }
         auto versionurl = *versionjsonurl;
-        qDebug() << "succes";
 
         qDebug() << "Downloading version json...";
         auto loaderjsonopt = crystal::fabric::DownloadLoaderJson(versionurl, loader, versionselected.toStdString());

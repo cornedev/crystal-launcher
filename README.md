@@ -1,7 +1,7 @@
-<p align="center"><img width="256px" src="gfx/mcapi_builds.png"></p>
+<p align="center"><img width="256px" src="gfx/crystal_builds.png"></p>
 
 # mcapi
-An API for downloading minecraft assets & launcher.
+A lightweight minecraft launcher.
 
 This is the builds branch, you can find the latest builds provided by GitHub actions here.
 
@@ -9,4 +9,4 @@ This is the builds branch, you can find the latest builds provided by GitHub act
 All the code is licensed under the [MIT license](LICENSE).
 
 ## Disclaimer
-Note that this project is __unofficial__ and not affiliated with Microsoft or Mojang. All assets are fetched directly from official Mojang servers, this API does not redistribute the assets. Please follow the [Minecraft EULA](https://www.minecraft.net/en-us/eula) and [Guidelines](https://www.minecraft.net/en-us/usage-guidelines)
+Note that this project is __unofficial__ and not affiliated with Microsoft or Mojang. All assets are fetched directly from official Mojang servers, this launcher does not redistribute the assets. Please follow the [Minecraft EULA](https://www.minecraft.net/en-us/eula) and [Guidelines](https://www.minecraft.net/en-us/usage-guidelines)

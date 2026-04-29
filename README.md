@@ -7,17 +7,17 @@ The goal of this project is to create a lightweight launcher that can be used an
 
 This was started as a school project to play Minecraft at school because everything was blocked, so I made this alongside the possibilities in our school. 
 
-Download the latest builds at the [builds branch](https://github.com/cornedev/mcapi/tree/builds).
+Download the latest builds at the [builds branch](https://github.com/cornedev/crystal/tree/builds).
 
 Note: the builds are broken at the moment. Github actions still needs fixing. Please download the latest release from the releases tab.
 
 ## Features
 - Launcher
-    - Full [vanilla](https://github.com/cornedev/mcapi/blob/main/api/mcapi_vanilla.cpp) downloading support (all assets & launching needs).
-    - Full [fabric](https://github.com/cornedev/mcapi/blob/main/api/mcapi_fabric.cpp) downloading support.
-    - [Minecraft starting](https://github.com/cornedev/mcapi/blob/main/api/mcapi_process.cpp) support.
-    - [Java downloading](https://github.com/cornedev/mcapi/blob/main/api/mcapi_java.cpp) support using the adoptium API.
-    - Official [Microsoft account authentication](https://github.com/cornedev/mcapi/blob/main/api/mcapi_auth.cpp) with mojang servers.
+    - Full [vanilla](https://github.com/cornedev/crystal/blob/main/api/crystal_vanilla.cpp) downloading support (all assets & launching needs).
+    - Full [fabric](https://github.com/cornedev/crystal/blob/main/api/crystal_fabric.cpp) downloading support.
+    - [Minecraft starting](https://github.com/cornedev/crystal/blob/main/api/crystal_process.cpp) support.
+    - [Java downloading](https://github.com/cornedev/crystal/blob/main/api/crystal_java.cpp) support using the adoptium API.
+    - Official [Microsoft account authentication](https://github.com/cornedev/crystal/blob/main/api/crystal_auth.cpp) with mojang servers.
     - Full cross-platform support (windows, macos and linux).
 ## Planned
 - Server process starting.
@@ -38,8 +38,8 @@ I can't guarantee the cli application will still work in future API changes.
     ```
 3. Clone this repository:
    ```sh
-   git clone --recurse-submodules https://github.com/cornedev/mcapi.git
-   cd mcapi/cli
+   git clone --recurse-submodules https://github.com/cornedev/crystal.git
+   cd crystal/cli
    ```
 4. Build the application:
    ```sh
@@ -59,8 +59,8 @@ That's it. The executable will be in `/build/` and all dependencies will be auto
 
 2. Clone this repository:
    ```sh
-   git clone --recurse-submodules https://github.com/cornedev/mcapi.git
-   cd mcapi/cli
+   git clone --recurse-submodules https://github.com/cornedev/crystal.git
+   cd crystal/cli
    ```
 3. Build the application:
    ```sh
@@ -72,10 +72,10 @@ That's it. The executable will be in `/build/` and all dependencies will be auto
    ```
 That's it. The executable will be in `/build/` and you can run it with:
    ```sh
-   ./build/mcapi_cli
+   ./build/crystal_cli
    ```
 
-## gui
+## launcher
 ### Windows
 1. Download the latest version of [MSYS2](https://www.msys2.org/). After installation open the MINGW64 shell.
 2. Install the following dependencies:
@@ -87,8 +87,8 @@ That's it. The executable will be in `/build/` and you can run it with:
     ```
 3. Clone this repository:
    ```sh
-   git clone --recurse-submodules https://github.com/cornedev/mcapi.git
-   cd mcapi/gui
+   git clone --recurse-submodules https://github.com/cornedev/crystal.git
+   cd crystal/gui
    ```
 4. Build the application:
    ```sh
@@ -110,8 +110,8 @@ That's it. The executable will be in `/build/` and all dependencies will be auto
 
 2. Clone this repository:
    ```sh
-   git clone --recurse-submodules https://github.com/cornedev/mcapi.git
-   cd mcapi/gui
+   git clone --recurse-submodules https://github.com/cornedev/crystal.git
+   cd crystal/gui
    ```
 3. Build the application:
    ```sh
@@ -123,7 +123,7 @@ That's it. The executable will be in `/build/` and all dependencies will be auto
    ```
 That's it. The executable will be in `/build/` and you can run it with:
    ```sh
-   ./build/mcapi_gui
+   ./build/crystal_gui
    ```
 
 <br>
@@ -136,8 +136,8 @@ If you ever want to clean or rebuild (for both applications):
 
 ## Showcase
 
-### gui launcher
-<img src="gfx/mcapi_gui_showcase.png" alt="mcapi_gui" width="450">
+### launcher
+<img src="gfx/crystal_gui_showcase.png" alt="crystal_gui" width="450">
 
 ## License
 All the code is licensed under the [MIT license](LICENSE).
@@ -145,4 +145,4 @@ All the code is licensed under the [MIT license](LICENSE).
 Copyright (c) 2025-2026 cornedev
 
 ## Disclaimer
-Note that this project is __unofficial__ and not affiliated with Microsoft or Mojang. All assets are fetched directly from official Mojang servers, this API does not redistribute the assets. Please follow the [Minecraft EULA](https://www.minecraft.net/en-us/eula) and [Guidelines](https://www.minecraft.net/en-us/usage-guidelines)
+Note that this project is __unofficial__ and not affiliated with Microsoft or Mojang. All assets are fetched directly from official Mojang servers, this launcher does not redistribute the assets. Please follow the [Minecraft EULA](https://www.minecraft.net/en-us/eula) and [Guidelines](https://www.minecraft.net/en-us/usage-guidelines)

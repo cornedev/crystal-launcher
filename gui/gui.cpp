@@ -1,7 +1,7 @@
 #include "gui.h"
 #include "ui_gui.h"
 
-static mcapi::Processhandle process{};
+static crystal::Processhandle process{};
 static gui* instance = nullptr;
 
 void ConsoleHandler(QtMsgType type, const QMessageLogContext &context, const QString &msg)
@@ -26,6 +26,9 @@ gui::gui(QWidget *parent)
 
     // - cancel login button.
     ui->logincancelbutton->hide();
+
+    // - microsoft login button styling.
+    ui->loginmicrosoftbutton->setStyleSheet("background-color: white; color: #616161;");
 
     // - pages.
     ui->pages->setCurrentIndex(0);
@@ -107,7 +110,7 @@ gui::gui(QWidget *parent)
 
 gui::~gui()
 {
-    mcapi::auth::StopMicrosoftLoginListener();
+    crystal::auth::StopMicrosoftLoginListener();
     qInstallMessageHandler(0);
     instance = nullptr;
     delete ui;
@@ -154,8 +157,8 @@ void gui::GetVersions()
         }
         else
         {
-            auto manifest = mcapi::vanilla::DownloadVersionManifest();
-            versions = mcapi::vanilla::GetVersionsFromManifest(*manifest);
+            auto manifest = crystal::vanilla::DownloadVersionManifest();
+            versions = crystal::vanilla::GetVersionsFromManifest(*manifest);
             versionsvanilla = versions;
         }
     }
@@ -167,8 +170,8 @@ void gui::GetVersions()
         }
         else
         {
-            auto meta = mcapi::fabric::DownloadVersionMeta();
-            versions = mcapi::fabric::GetVersionsFromMeta(*meta);
+            auto meta = crystal::fabric::DownloadVersionMeta();
+            versions = crystal::fabric::GetVersionsFromMeta(*meta);
             versionsfabric = versions;
         }
     }
@@ -206,7 +209,7 @@ bool gui::StartVersion(const QString &username, const QString &loaderselected, c
     if (loaderselected == "vanilla")
     {
         // - download manifest.
-        auto manifestopt = mcapi::vanilla::DownloadVersionManifest();
+        auto manifestopt = crystal::vanilla::DownloadVersionManifest();
         if (!manifestopt)
         {
             qDebug() << "Failed to download manifest.";
@@ -215,7 +218,7 @@ bool gui::StartVersion(const QString &username, const QString &loaderselected, c
         auto manifest = *manifestopt;
         
         // - download version json.
-        auto versionjsonurl = mcapi::vanilla::GetVersionJsonDownloadUrl(manifest, versionselected.toStdString());
+        auto versionjsonurl = crystal::vanilla::GetVersionJsonDownloadUrl(manifest, versionselected.toStdString());
         if (!versionjsonurl)
         {
             qDebug() << "Version not found in manifest.";
@@ -224,7 +227,7 @@ bool gui::StartVersion(const QString &username, const QString &loaderselected, c
         auto versionurl = *versionjsonurl;
 
         qDebug() << "Downloading version json...";
-        auto versionjsonopt = mcapi::vanilla::DownloadVersionJson(versionurl, versionselected.toStdString());
+        auto versionjsonopt = crystal::vanilla::DownloadVersionJson(versionurl, versionselected.toStdString());
         if (!versionjsonopt)
         {
             qDebug() << "Failed to download version json (are you offline?).";
@@ -234,7 +237,7 @@ bool gui::StartVersion(const QString &username, const QString &loaderselected, c
         auto versionjson = *versionjsonopt;
 
         // - download client jar.
-        auto jarurlopt = mcapi::vanilla::GetClientJarDownloadUrl(versionjson);
+        auto jarurlopt = crystal::vanilla::GetClientJarDownloadUrl(versionjson);
         if (!jarurlopt)
         {
             qDebug() << "Failed to get client jar url.";
@@ -243,7 +246,7 @@ bool gui::StartVersion(const QString &username, const QString &loaderselected, c
         auto jarurl = *jarurlopt;
 
         qDebug() << "Downloading client jar...";
-        auto clientjar = mcapi::vanilla::DownloadClientJar(jarurl, versionselected.toStdString());
+        auto clientjar = crystal::vanilla::DownloadClientJar(jarurl, versionselected.toStdString());
         if (!clientjar)
         {
             qDebug() << "Failed to download client jar.";
@@ -252,7 +255,7 @@ bool gui::StartVersion(const QString &username, const QString &loaderselected, c
         qDebug() << "Client jar downloaded.";
 
         // - download asset index.
-        auto indexurlopt = mcapi::vanilla::GetAssetIndexJsonDownloadUrl(versionjson);
+        auto indexurlopt = crystal::vanilla::GetAssetIndexJsonDownloadUrl(versionjson);
         if (!indexurlopt)
         {
             qDebug() << "Failed to get asset index URL.";
@@ -261,7 +264,7 @@ bool gui::StartVersion(const QString &username, const QString &loaderselected, c
         auto indexurl = *indexurlopt;
 
         qDebug() << "Downloading Asset index...";
-        auto assetjsonopt = mcapi::vanilla::DownloadAssetIndexJson(indexurl, versionselected.toStdString());
+        auto assetjsonopt = crystal::vanilla::DownloadAssetIndexJson(indexurl, versionselected.toStdString());
         if (!assetjsonopt)
         {
             qDebug() << "Failed to download asset index.";
@@ -271,7 +274,7 @@ bool gui::StartVersion(const QString &username, const QString &loaderselected, c
         qDebug() << "Asset index downloaded.";
 
         // - download assets.
-        auto assetsurlopt = mcapi::vanilla::GetAssetsDownloadUrl(assetjson);
+        auto assetsurlopt = crystal::vanilla::GetAssetsDownloadUrl(assetjson);
         if (!assetsurlopt)
         {
             qDebug() << "Failed to get assets download urls.";
@@ -279,7 +282,7 @@ bool gui::StartVersion(const QString &username, const QString &loaderselected, c
         }
 
         qDebug() << "Downloading assets... (this may take a while)";
-        auto assets = mcapi::vanilla::DownloadAssets(*assetsurlopt, versionselected.toStdString());
+        auto assets = crystal::vanilla::DownloadAssets(*assetsurlopt, versionselected.toStdString());
         if (!assets)
         {
             qDebug() << "Failed to download assets.";
@@ -288,25 +291,25 @@ bool gui::StartVersion(const QString &username, const QString &loaderselected, c
         qDebug() << "Assets downloaded.";
 
         // - conversion.
-        mcapi::OS osenum;
+        crystal::OS osenum;
         if (osselected == "windows")
-            osenum = mcapi::OS::Windows;
+            osenum = crystal::OS::Windows;
         else if (osselected == "linux")
-            osenum = mcapi::OS::Linux;
+            osenum = crystal::OS::Linux;
         else if (osselected == "macos")
-            osenum = mcapi::OS::Macos;
+            osenum = crystal::OS::Macos;
         else
         {
             qDebug() << "Invalid OS.";
             return false;
         }
-        mcapi::Arch archenum;
+        crystal::Arch archenum;
         if (archselected == "x64")
-            archenum = mcapi::Arch::x64;
+            archenum = crystal::Arch::x64;
         else if (archselected == "x32")
-            archenum = mcapi::Arch::x32;
+            archenum = crystal::Arch::x32;
         else if (archselected == "arm64")
-            archenum = mcapi::Arch::arm64;
+            archenum = crystal::Arch::arm64;
         else
         {
             qDebug() << "Invalid architecture.";
@@ -314,7 +317,7 @@ bool gui::StartVersion(const QString &username, const QString &loaderselected, c
         }
 
         // - download java.
-        auto javaversionopt = mcapi::GetJavaVersion(versionjson);
+        auto javaversionopt = crystal::GetJavaVersion(versionjson);
         if (!javaversionopt)
         {
             qDebug() << "Failed to get java version.";
@@ -322,7 +325,7 @@ bool gui::StartVersion(const QString &username, const QString &loaderselected, c
         }
         int javaversion = *javaversionopt;
 
-        auto javaurlopt = mcapi::GetJavaDownloadUrl(javaversion, osenum, archenum);
+        auto javaurlopt = crystal::GetJavaDownloadUrl(javaversion, osenum, archenum);
         if (!javaurlopt)
         {
             qDebug() << "Failed to get java download url.";
@@ -331,7 +334,7 @@ bool gui::StartVersion(const QString &username, const QString &loaderselected, c
         auto javaurl = *javaurlopt;
 
          qDebug() << "Downloading java...";
-        auto javaopt = mcapi::DownloadJava(javaurl, versionselected.toStdString());
+        auto javaopt = crystal::DownloadJava(javaurl, versionselected.toStdString());
         if (!javaopt)
         {
             qDebug() << "Failed to download java.";
@@ -341,7 +344,7 @@ bool gui::StartVersion(const QString &username, const QString &loaderselected, c
         auto java = *javaopt;
 
         // - download libraries.
-        auto librariesurlopt = mcapi::vanilla::GetLibrariesDownloadUrl(versionjson, osenum);
+        auto librariesurlopt = crystal::vanilla::GetLibrariesDownloadUrl(versionjson, osenum);
         if (!librariesurlopt)
         {
             qDebug() << "Failed to get libraries.";
@@ -349,7 +352,7 @@ bool gui::StartVersion(const QString &username, const QString &loaderselected, c
         }
 
         qDebug() << "Downloading libraries...";
-        auto librariesdownloaded = mcapi::vanilla::DownloadLibraries(*librariesurlopt, versionselected.toStdString());
+        auto librariesdownloaded = crystal::vanilla::DownloadLibraries(*librariesurlopt, versionselected.toStdString());
         if (!librariesdownloaded)
         {
             qDebug() << "Failed to download libraries.";
@@ -359,7 +362,7 @@ bool gui::StartVersion(const QString &username, const QString &loaderselected, c
 
         // - extract natives.
         qDebug() << "Extracting natives...";
-        auto nativesurlopt = mcapi::vanilla::GetLibrariesNatives(versionselected.toStdString(), versionjson, osenum, archenum);
+        auto nativesurlopt = crystal::vanilla::GetLibrariesNatives(versionselected.toStdString(), versionjson, osenum, archenum);
         if (!nativesurlopt)
         {
             qDebug() << "Failed to get natives urls.";
@@ -367,14 +370,14 @@ bool gui::StartVersion(const QString &username, const QString &loaderselected, c
         }
 
         qDebug() <<"Downloading natives...";
-        auto nativesjarsopt = mcapi::vanilla::DownloadLibrariesNatives(*nativesurlopt, versionselected.toStdString());
+        auto nativesjarsopt = crystal::vanilla::DownloadLibrariesNatives(*nativesurlopt, versionselected.toStdString());
         if (!nativesjarsopt)
         {
             qDebug() << "Failed to download native jars.";
             return false;
         }
 
-        auto nativesextracted = mcapi::vanilla::ExtractLibrariesNatives(*nativesjarsopt, versionselected.toStdString(), osenum);
+        auto nativesextracted = crystal::vanilla::ExtractLibrariesNatives(*nativesjarsopt, versionselected.toStdString(), osenum);
         if (!nativesextracted)
         {
             qDebug() << "Failed to extract natives.";
@@ -384,8 +387,8 @@ bool gui::StartVersion(const QString &username, const QString &loaderselected, c
 
         // - build classpath.
         qDebug() << "Building classpath...";
-        fs::path datapath = ".mcapi";
-        auto classpathopt = mcapi::vanilla::GetClassPath(versionjson, *librariesdownloaded, (datapath / "versions" / versionselected.toStdString() / "client.jar").string(), osenum);
+        fs::path datapath = ".crystal";
+        auto classpathopt = crystal::vanilla::GetClassPath(versionjson, *librariesdownloaded, (datapath / "versions" / versionselected.toStdString() / "client.jar").string(), osenum);
         if (!classpathopt)
         {
             qDebug() << "Failed to build classpath.";
@@ -399,7 +402,7 @@ bool gui::StartVersion(const QString &username, const QString &loaderselected, c
         if (microsoft)
         {
             qDebug() << "Building launch command...";
-            auto launchcmdopt = mcapi::vanilla::GetLaunchCommand(microsoftusername, classpath, versionjson, versionselected.toStdString(), osenum, microsoftuuid, microsoftaccesstoken, "msa");
+            auto launchcmdopt = crystal::vanilla::GetLaunchCommand(microsoftusername, classpath, versionjson, versionselected.toStdString(), osenum, microsoftuuid, microsoftaccesstoken, "msa");
             if (!launchcmdopt)
             {
                 qDebug() << "Failed to build launch command.";
@@ -411,7 +414,7 @@ bool gui::StartVersion(const QString &username, const QString &loaderselected, c
         else
         {
             qDebug() << "Building launch command...";
-            auto launchcmdopt = mcapi::vanilla::GetLaunchCommand(username.toStdString(), classpath, versionjson, versionselected.toStdString(), osenum);
+            auto launchcmdopt = crystal::vanilla::GetLaunchCommand(username.toStdString(), classpath, versionjson, versionselected.toStdString(), osenum);
             if (!launchcmdopt)
             {
                 qDebug() << "Failed to build launch command.";
@@ -425,16 +428,16 @@ bool gui::StartVersion(const QString &username, const QString &loaderselected, c
         std::string javapath;
         switch (osenum)
         {
-        case mcapi::OS::Windows:
+        case crystal::OS::Windows:
             javapath = "runtime/" + versionselected.toStdString() + "/java/bin/java.exe";
             break;
 
-        case mcapi::OS::Linux:
-        case mcapi::OS::Macos:
+        case crystal::OS::Linux:
+        case crystal::OS::Macos:
             javapath = "runtime/" + versionselected.toStdString() + "/java/bin/java";
             break;
         }
-        bool launched = mcapi::StartProcess(javapath, launchcmd, osenum, &process, true);
+        bool launched = crystal::StartProcess(javapath, launchcmd, osenum, &process, true);
         if (!launched)
         {
             QMetaObject::invokeMethod(this, [this](){QMessageBox::critical(this, "error", "Failed to launch minecraft.");}, Qt::QueuedConnection);
@@ -449,10 +452,10 @@ bool gui::StartVersion(const QString &username, const QString &loaderselected, c
     else if (loaderselected == "fabric")
     {
         // - download fabric meta.
-        auto meta = mcapi::fabric::DownloadVersionMeta();
+        auto meta = crystal::fabric::DownloadVersionMeta();
 
         // - download meta json that contains the loader version.
-        auto loadermetaurlopt = mcapi::fabric::GetLoaderMetaUrl(versionselected.toStdString());
+        auto loadermetaurlopt = crystal::fabric::GetLoaderMetaUrl(versionselected.toStdString());
         if (!loadermetaurlopt)
         {
             qDebug() << "Failed to get loader meta url (are you offline?).";
@@ -460,7 +463,7 @@ bool gui::StartVersion(const QString &username, const QString &loaderselected, c
         }
         auto loadermetaurl = *loadermetaurlopt;
 
-        auto loadermetaopt = mcapi::fabric::DownloadLoaderMeta(loadermetaurl);
+        auto loadermetaopt = crystal::fabric::DownloadLoaderMeta(loadermetaurl);
         if (!loadermetaopt)
         {
             qDebug() << "Failed to download loader meta.";
@@ -469,7 +472,7 @@ bool gui::StartVersion(const QString &username, const QString &loaderselected, c
         auto loadermeta = *loadermetaopt;
         qDebug() << "Loader meta downloaded.";
 
-        auto loaderopt = mcapi::fabric::GetLoaderVersion(loadermeta);
+        auto loaderopt = crystal::fabric::GetLoaderVersion(loadermeta);
         if (!loaderopt)
         {
             qDebug() << "Failed to get loader version.";
@@ -481,7 +484,7 @@ bool gui::StartVersion(const QString &username, const QString &loaderselected, c
         QString versionid = versionselected + "-fabric-loader-" + QString::fromStdString(loader);
 
         // - download fabric version json.
-        auto versionjsonurl = mcapi::fabric::GetLoaderJsonDownloadUrl(loader, versionselected.toStdString());
+        auto versionjsonurl = crystal::fabric::GetLoaderJsonDownloadUrl(loader, versionselected.toStdString());
         if (!versionjsonurl)
         {
             qDebug() << "Version not found in fabric manifest.";
@@ -491,7 +494,7 @@ bool gui::StartVersion(const QString &username, const QString &loaderselected, c
         qDebug() << "succes";
 
         qDebug() << "Downloading version json...";
-        auto loaderjsonopt = mcapi::fabric::DownloadLoaderJson(versionurl, loader, versionselected.toStdString());
+        auto loaderjsonopt = crystal::fabric::DownloadLoaderJson(versionurl, loader, versionselected.toStdString());
         if (!loaderjsonopt)
         {
             qDebug() << "Failed to download version json.";
@@ -501,7 +504,7 @@ bool gui::StartVersion(const QString &username, const QString &loaderselected, c
         qDebug() << "Version json downloaded.";
 
         // - merge vanilla json with fabric json.
-        auto mergedjsonopt = mcapi::fabric::GetLoaderJson(loaderjson, loader, versionselected.toStdString());
+        auto mergedjsonopt = crystal::fabric::GetLoaderJson(loaderjson, loader, versionselected.toStdString());
         if (!mergedjsonopt)
         {
             qDebug() << "Failed to create merged version json.";
@@ -510,7 +513,7 @@ bool gui::StartVersion(const QString &username, const QString &loaderselected, c
         auto mergedjson = *mergedjsonopt;
 
         // - download client jar.
-        auto jarurlopt = mcapi::vanilla::GetClientJarDownloadUrl(mergedjson);
+        auto jarurlopt = crystal::vanilla::GetClientJarDownloadUrl(mergedjson);
         if (!jarurlopt)
         {
             qDebug() << "Failed to get client jar url.";
@@ -519,7 +522,7 @@ bool gui::StartVersion(const QString &username, const QString &loaderselected, c
         auto jarurl = *jarurlopt;
 
         qDebug() << "Downloading client jar...";
-        auto clientjar = mcapi::vanilla::DownloadClientJar(jarurl, versionid.toStdString());
+        auto clientjar = crystal::vanilla::DownloadClientJar(jarurl, versionid.toStdString());
         if (!clientjar)
         {
             qDebug() << "Failed to download client jar.";
@@ -528,7 +531,7 @@ bool gui::StartVersion(const QString &username, const QString &loaderselected, c
         qDebug() << "Client jar downloaded.";
 
         // - download asset index.
-        auto indexurlopt = mcapi::vanilla::GetAssetIndexJsonDownloadUrl(mergedjson);
+        auto indexurlopt = crystal::vanilla::GetAssetIndexJsonDownloadUrl(mergedjson);
         if (!indexurlopt)
         {
             qDebug() << "Failed to get asset index URL.";
@@ -537,7 +540,7 @@ bool gui::StartVersion(const QString &username, const QString &loaderselected, c
         auto indexurl = *indexurlopt;
 
         qDebug() << "Downloading Asset index...";
-        auto assetjsonopt = mcapi::vanilla::DownloadAssetIndexJson(indexurl, versionid.toStdString());
+        auto assetjsonopt = crystal::vanilla::DownloadAssetIndexJson(indexurl, versionid.toStdString());
         if (!assetjsonopt)
         {
             qDebug() << "Failed to download asset index.";
@@ -547,7 +550,7 @@ bool gui::StartVersion(const QString &username, const QString &loaderselected, c
         qDebug() << "Asset index downloaded.";
 
         // - download assets.
-        auto assetsurlopt = mcapi::vanilla::GetAssetsDownloadUrl(assetjson);
+        auto assetsurlopt = crystal::vanilla::GetAssetsDownloadUrl(assetjson);
         if (!assetsurlopt)
         {
             qDebug() << "Failed to get assets download urls.";
@@ -555,7 +558,7 @@ bool gui::StartVersion(const QString &username, const QString &loaderselected, c
         }
 
         qDebug() << "Downloading assets... (this may take a while)";
-        auto assets = mcapi::vanilla::DownloadAssets(*assetsurlopt, versionid.toStdString());
+        auto assets = crystal::vanilla::DownloadAssets(*assetsurlopt, versionid.toStdString());
         if (!assets)
         {
             qDebug() << "Failed to download assets.";
@@ -564,25 +567,25 @@ bool gui::StartVersion(const QString &username, const QString &loaderselected, c
         qDebug() << "Assets downloaded.";
 
         // - conversion.
-        mcapi::OS osenum;
+        crystal::OS osenum;
         if (osselected == "windows")
-            osenum = mcapi::OS::Windows;
+            osenum = crystal::OS::Windows;
         else if (osselected == "linux")
-            osenum = mcapi::OS::Linux;
+            osenum = crystal::OS::Linux;
         else if (osselected == "macos")
-            osenum = mcapi::OS::Macos;
+            osenum = crystal::OS::Macos;
         else
         {
             qDebug() << "Invalid OS.";
             return false;
         }
-        mcapi::Arch archenum;
+        crystal::Arch archenum;
         if (archselected == "x64")
-            archenum = mcapi::Arch::x64;
+            archenum = crystal::Arch::x64;
         else if (archselected == "x32")
-            archenum = mcapi::Arch::x32;
+            archenum = crystal::Arch::x32;
         else if (archselected == "arm64")
-            archenum = mcapi::Arch::arm64;
+            archenum = crystal::Arch::arm64;
         else
         {
             qDebug() << "Invalid architecture.";
@@ -590,7 +593,7 @@ bool gui::StartVersion(const QString &username, const QString &loaderselected, c
         }
 
         // - download java.
-        auto javaversionopt = mcapi::GetJavaVersion(mergedjson);
+        auto javaversionopt = crystal::GetJavaVersion(mergedjson);
         if (!javaversionopt)
         {
             qDebug() << "Failed to get java version.";
@@ -598,7 +601,7 @@ bool gui::StartVersion(const QString &username, const QString &loaderselected, c
         }
         int javaversion = *javaversionopt;
 
-        auto javaurlopt = mcapi::GetJavaDownloadUrl(javaversion, osenum, archenum);
+        auto javaurlopt = crystal::GetJavaDownloadUrl(javaversion, osenum, archenum);
         if (!javaurlopt)
         {
             qDebug() << "Failed to get java download url.";
@@ -607,7 +610,7 @@ bool gui::StartVersion(const QString &username, const QString &loaderselected, c
         auto javaurl = *javaurlopt;
 
         qDebug() << "Downloading java...";
-        auto javaopt = mcapi::DownloadJava(javaurl, versionid.toStdString());
+        auto javaopt = crystal::DownloadJava(javaurl, versionid.toStdString());
         if (!javaopt)
         {
             qDebug() << "Failed to download java.";
@@ -617,7 +620,7 @@ bool gui::StartVersion(const QString &username, const QString &loaderselected, c
         auto java = *javaopt;
 
         // - download libraries.
-        auto librariesurlopt = mcapi::fabric::GetLoaderLibrariesDownloadUrl(mergedjson, osenum);
+        auto librariesurlopt = crystal::fabric::GetLoaderLibrariesDownloadUrl(mergedjson, osenum);
         if (!librariesurlopt)
         {
             qDebug() << "Failed to get libraries.";
@@ -625,7 +628,7 @@ bool gui::StartVersion(const QString &username, const QString &loaderselected, c
         }
 
         qDebug() << "Downloading libraries...";
-        auto librariesdownloaded = mcapi::vanilla::DownloadLibraries(*librariesurlopt, versionid.toStdString());
+        auto librariesdownloaded = crystal::vanilla::DownloadLibraries(*librariesurlopt, versionid.toStdString());
         if (!librariesdownloaded)
         {
             qDebug() << "Failed to download libraries.";
@@ -635,7 +638,7 @@ bool gui::StartVersion(const QString &username, const QString &loaderselected, c
 
         // - extract natives.
         qDebug() << "Extracting natives...";
-        auto nativesurlopt = mcapi::vanilla::GetLibrariesNatives(versionid.toStdString(), mergedjson, osenum, archenum);
+        auto nativesurlopt = crystal::vanilla::GetLibrariesNatives(versionid.toStdString(), mergedjson, osenum, archenum);
         if (!nativesurlopt)
         {
             qDebug() << "Failed to get natives urls.";
@@ -643,14 +646,14 @@ bool gui::StartVersion(const QString &username, const QString &loaderselected, c
         }
 
         qDebug() <<"Downloading natives...";
-        auto nativesjarsopt = mcapi::vanilla::DownloadLibrariesNatives(*nativesurlopt, versionid.toStdString());
+        auto nativesjarsopt = crystal::vanilla::DownloadLibrariesNatives(*nativesurlopt, versionid.toStdString());
         if (!nativesjarsopt)
         {
             qDebug() << "Failed to download native jars.";
             return false;
         }
 
-        auto nativesextracted = mcapi::vanilla::ExtractLibrariesNatives(*nativesjarsopt, versionid.toStdString(), osenum);
+        auto nativesextracted = crystal::vanilla::ExtractLibrariesNatives(*nativesjarsopt, versionid.toStdString(), osenum);
         if (!nativesextracted)
         {
             qDebug() << "Failed to extract natives.";
@@ -660,8 +663,8 @@ bool gui::StartVersion(const QString &username, const QString &loaderselected, c
 
         // - build classpath.
         qDebug() << "Building classpath...";
-        fs::path datapath = ".mcapi";
-        auto classpathopt = mcapi::vanilla::GetClassPath(mergedjson, *librariesdownloaded, (datapath / "versions" / versionid.toStdString() / "client.jar").string(), osenum);
+        fs::path datapath = ".crystal";
+        auto classpathopt = crystal::vanilla::GetClassPath(mergedjson, *librariesdownloaded, (datapath / "versions" / versionid.toStdString() / "client.jar").string(), osenum);
         if (!classpathopt)
         {
             qDebug() << "Failed to build classpath.";
@@ -675,7 +678,7 @@ bool gui::StartVersion(const QString &username, const QString &loaderselected, c
         if (microsoft)
         {
             qDebug() << "Building launch command...";
-            auto launchcmdopt = mcapi::vanilla::GetLaunchCommand(microsoftusername, classpath, mergedjson, versionid.toStdString(), osenum, microsoftuuid, microsoftaccesstoken, "msa");
+            auto launchcmdopt = crystal::vanilla::GetLaunchCommand(microsoftusername, classpath, mergedjson, versionid.toStdString(), osenum, microsoftuuid, microsoftaccesstoken, "msa");
             if (!launchcmdopt)
             {
                 qDebug() << "Failed to build launch command.";
@@ -687,7 +690,7 @@ bool gui::StartVersion(const QString &username, const QString &loaderselected, c
         else
         {
             qDebug() << "Building launch command...";
-            auto launchcmdopt = mcapi::vanilla::GetLaunchCommand(username.toStdString(), classpath, mergedjson, versionid.toStdString(), osenum);
+            auto launchcmdopt = crystal::vanilla::GetLaunchCommand(username.toStdString(), classpath, mergedjson, versionid.toStdString(), osenum);
             if (!launchcmdopt)
             {
                 qDebug() << "Failed to build launch command.";
@@ -701,16 +704,16 @@ bool gui::StartVersion(const QString &username, const QString &loaderselected, c
         std::string javapath;
         switch (osenum)
         {
-        case mcapi::OS::Windows:
+        case crystal::OS::Windows:
             javapath = "runtime/" + versionid.toStdString() + "/java/bin/java.exe";
             break;
 
-        case mcapi::OS::Linux:
-        case mcapi::OS::Macos:
+        case crystal::OS::Linux:
+        case crystal::OS::Macos:
             javapath = "runtime/" + versionid.toStdString() + "/java/bin/java";
             break;
         }
-        bool launched = mcapi::StartProcess(javapath, launchcmd, osenum, &process, true);
+        bool launched = crystal::StartProcess(javapath, launchcmd, osenum, &process, true);
         if (!launched)
         {
             QMetaObject::invokeMethod(this, [this](){QMessageBox::critical(this, "error", "Failed to launch minecraft.");}, Qt::QueuedConnection);
@@ -747,7 +750,7 @@ void gui::on_startbutton_clicked()
             QMetaObject::invokeMethod(ui->startbutton, "setEnabled", Qt::QueuedConnection, Q_ARG(bool, true));
             return;
         }
-        while (mcapi::DetectProcess(&process))
+        while (crystal::DetectProcess(&process))
         {
             QThread::sleep(1);
         }
@@ -758,7 +761,7 @@ void gui::on_startbutton_clicked()
 
 void gui::on_stopbutton_clicked()
 {
-    if (!mcapi::StopProcess(&process))
+    if (!crystal::StopProcess(&process))
     {
         QMessageBox::critical(this, "error", "Failed to stop minecraft.");
     }
@@ -776,7 +779,7 @@ bool gui::StartMicrosoftLogin()
     if (!microsoftlogin)
     {
         // - get microsoft login url.
-        auto codeurlopt = mcapi::auth::GetMicrosoftLoginUrl();
+        auto codeurlopt = crystal::auth::GetMicrosoftLoginUrl();
         if (!codeurlopt)
         {
             qDebug() << "Failed to get auth url.";
@@ -786,7 +789,7 @@ bool gui::StartMicrosoftLogin()
 
         // - start microsoft login listener for auth code.
         qDebug() << "180 seconds until login gets cancelled. Please press the cancel button if you want to retry the login process.";
-        auto codeopt = mcapi::auth::StartMicrosoftLoginListener(codeurl);
+        auto codeopt = crystal::auth::StartMicrosoftLoginListener(codeurl);
         if (!codeopt)
         {
             qDebug() << "Failed to login with Microsoft.";
@@ -800,7 +803,7 @@ bool gui::StartMicrosoftLogin()
         }
 
         // - get access token json.
-        auto accessjsonopt = mcapi::auth::GetAccessTokenJson(code);
+        auto accessjsonopt = crystal::auth::GetAccessTokenJson(code);
         if (!accessjsonopt)
         {
             qDebug() << "Failed to get access token json.";
@@ -809,7 +812,7 @@ bool gui::StartMicrosoftLogin()
         auto accessjson = *accessjsonopt;
 
         // - get access token from json.
-        auto accesstokenopt = mcapi::auth::GetAccessTokenFromJson(accessjson);
+        auto accesstokenopt = crystal::auth::GetAccessTokenFromJson(accessjson);
         if (!accesstokenopt)
         {
             qDebug() << "Failed to get access token.";
@@ -818,7 +821,7 @@ bool gui::StartMicrosoftLogin()
         accesstoken = *accesstokenopt;
 
         // - get refresh token from json.
-        auto refreshtokenopt = mcapi::auth::GetRefreshTokenFromJson(accessjson);
+        auto refreshtokenopt = crystal::auth::GetRefreshTokenFromJson(accessjson);
         if (!refreshtokenopt)
         {
             qDebug() << "Failed to get access token.";
@@ -829,7 +832,7 @@ bool gui::StartMicrosoftLogin()
     if (microsoftlogin)
     {
         // - get access token from refresh token.
-        auto accesstokenopt = mcapi::auth::GetAccessTokenFromRefreshToken();
+        auto accesstokenopt = crystal::auth::GetAccessTokenFromRefreshToken();
         if (!accesstokenopt)
         {
             qDebug() << "Failed to get access token.";
@@ -839,7 +842,7 @@ bool gui::StartMicrosoftLogin()
     }
 
     // - get xbox token json.
-    auto xboxjsonopt = mcapi::auth::GetXboxTokenJson(accesstoken);
+    auto xboxjsonopt = crystal::auth::GetXboxTokenJson(accesstoken);
     if (!xboxjsonopt)
     {
         qDebug() << "Failed to get xbox token json.";
@@ -848,7 +851,7 @@ bool gui::StartMicrosoftLogin()
     auto xboxjson = *xboxjsonopt;
 
     // - get xbox token from json.
-    auto xboxtokenopt = mcapi::auth::GetXboxTokenFromJson(xboxjson);
+    auto xboxtokenopt = crystal::auth::GetXboxTokenFromJson(xboxjson);
     if (!xboxtokenopt)
     {
         qDebug() << "Failed to get xbox token from json.";
@@ -857,7 +860,7 @@ bool gui::StartMicrosoftLogin()
     auto xboxtoken = *xboxtokenopt;
 
     // - get xbox hash from json.
-    auto xboxhashopt = mcapi::auth::GetXboxHashFromJson(xboxjson);
+    auto xboxhashopt = crystal::auth::GetXboxHashFromJson(xboxjson);
     if (!xboxhashopt)
     {
         qDebug() << "Failed to get xbox hash from json.";
@@ -866,7 +869,7 @@ bool gui::StartMicrosoftLogin()
     auto xboxhash = *xboxhashopt;
 
     // - get xsts token json.
-    auto xstsjsonopt = mcapi::auth::GetXstsTokenJson(xboxtoken);
+    auto xstsjsonopt = crystal::auth::GetXstsTokenJson(xboxtoken);
     if (!xstsjsonopt)
     {
         qDebug() << "Failed to get xsts token json.";
@@ -875,7 +878,7 @@ bool gui::StartMicrosoftLogin()
     auto xstsjson = *xstsjsonopt;
 
     // - get xsts token from json.
-    auto xststokenopt = mcapi::auth::GetXstsTokenFromJson(xstsjson);
+    auto xststokenopt = crystal::auth::GetXstsTokenFromJson(xstsjson);
     if (!xststokenopt)
     {
         qDebug() << "Failed to get xsts token from json.";
@@ -884,7 +887,7 @@ bool gui::StartMicrosoftLogin()
     auto xststoken = *xststokenopt;
 
     // - get minecraft token json.
-    auto mcjsonopt = mcapi::auth::GetMinecraftTokenJson(xboxhash, xststoken);
+    auto mcjsonopt = crystal::auth::GetMinecraftTokenJson(xboxhash, xststoken);
     if (!mcjsonopt)
     {
         qDebug() << "Failed to get minecraft token json.";
@@ -893,7 +896,7 @@ bool gui::StartMicrosoftLogin()
     auto mcjson = *mcjsonopt;
 
     // - get minecraft token from json.
-    auto mctokenopt = mcapi::auth::GetMinecraftTokenFromJson(mcjson);
+    auto mctokenopt = crystal::auth::GetMinecraftTokenFromJson(mcjson);
     if (!mctokenopt)
     {
         qDebug() << "Failed to get minecraft token from json.";
@@ -902,7 +905,7 @@ bool gui::StartMicrosoftLogin()
     auto mctoken = *mctokenopt;
 
     // - verify minecraft ownership.
-    auto ownerjsonopt = mcapi::auth::GetMinecraftOwnershipJson(mctoken);
+    auto ownerjsonopt = crystal::auth::GetMinecraftOwnershipJson(mctoken);
     if (!ownerjsonopt)
     {
         qDebug() << "Failed to get minecraft entitlements json.";
@@ -910,7 +913,7 @@ bool gui::StartMicrosoftLogin()
     }
     auto ownerjson = *ownerjsonopt;
 
-    auto owns = mcapi::auth::GetMinecraftOwnershipFromJson(ownerjson);
+    auto owns = crystal::auth::GetMinecraftOwnershipFromJson(ownerjson);
     if (!owns.value())
     {
         QMetaObject::invokeMethod(this, [this](){QMessageBox::critical(this, "error", "This account doesn't own minecraft.");}, Qt::QueuedConnection);
@@ -919,7 +922,7 @@ bool gui::StartMicrosoftLogin()
     }
 
     // - get minecraft profile json.
-    auto profileopt = mcapi::auth::GetMinecraftProfileJson(mctoken);
+    auto profileopt = crystal::auth::GetMinecraftProfileJson(mctoken);
     if (!profileopt)
     {
         qDebug() << "Failed to get minecraft profile json.";
@@ -928,7 +931,7 @@ bool gui::StartMicrosoftLogin()
     auto profilejson = *profileopt;
 
     // - get minecraft username from profile json.
-    auto usernameopt = mcapi::auth::GetUsernameFromProfileJson(profilejson);
+    auto usernameopt = crystal::auth::GetUsernameFromProfileJson(profilejson);
     if (!usernameopt)
     {
         qDebug() << "Failed to get minecraft username from profile json.";
@@ -937,7 +940,7 @@ bool gui::StartMicrosoftLogin()
     auto username = *usernameopt;
 
     // - get minecraft uuid from profile json.
-    auto uuidopt = mcapi::auth::GetUuidFromProfileJson(profilejson);
+    auto uuidopt = crystal::auth::GetUuidFromProfileJson(profilejson);
     if (!uuidopt)
     {
         qDebug() << "Failed to get minecraft uuid from profile json.";
@@ -964,7 +967,7 @@ void gui::on_loginmicrosoftbutton_clicked()
 
     if (microsoftlatestlogin)
     {
-        microsoftlogin = fs::exists(".mcapi/refresh_token");
+        microsoftlogin = fs::exists(".crystal/refresh_token");
     }
     else
     {
@@ -1012,7 +1015,7 @@ void gui::on_loginmicrosoftbutton_clicked()
 
 void gui::on_logincancelbutton_clicked()
 {
-    bool running = mcapi::auth::StopMicrosoftLoginListener();
+    bool running = crystal::auth::StopMicrosoftLoginListener();
     if (running)
         qDebug() << "Login canceled.";
 

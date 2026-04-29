@@ -1,6 +1,6 @@
 #include "api.hpp"
 
-namespace mcapi
+namespace crystal
 {
 
 std::optional<int> GetJavaVersion(const std::string& versionjson)

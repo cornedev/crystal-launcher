@@ -1,9 +1,10 @@
 <RCC>
     <qresource prefix="/">
-        <file>gfx/mcapi_logo.png</file>
-        <file>gfx/mcapi_gui.ico</file>
-        <file>gfx/mcapi_gui.png</file>
-        <file>gfx/mcapi_background_launcher.png</file>
-        <file>gfx/mcapi_background_login.png</file>
+        <file>gfx/crystal_background_launcher.png</file>
+        <file>gfx/crystal_background_login.png</file>
+        <file>gfx/crystal_logo.png</file>
+        <file>gfx/crystal_icon.ico</file>
+        <file>gfx/crystal_icon.png</file>
+        <file>gfx/microsoft.png</file>
     </qresource>
 </RCC>

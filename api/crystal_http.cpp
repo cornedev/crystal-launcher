@@ -1,6 +1,6 @@
 #include "api.hpp"
 
-namespace mcapi
+namespace crystal
 {
 
 // - helpers.

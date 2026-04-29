@@ -32,9 +32,9 @@ namespace fs = std::filesystem;
 #include <nlohmann/json.hpp>
 using json = nlohmann::json;
 
-namespace mcapi
+namespace crystal
 {
-    inline fs::path datapath = ".mcapi";
+    inline fs::path datapath = ".crystal";
     using argsmap = std::unordered_map<std::string, std::string>;
 
     enum class GETmode

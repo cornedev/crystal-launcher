@@ -1,6 +1,6 @@
 #include "api.hpp"
 
-namespace mcapi
+namespace crystal
 {
 
 // - helper defines.
@@ -105,7 +105,7 @@ std::optional<std::string> StartMicrosoftLoginListener(const std::string& url)
             continue;
 
         socket_t client = accept(server_fd, nullptr, nullptr);
-        if (client < 0) 
+        if (client < 0)
             continue;
 
         timeval recv_timeout{};
@@ -130,7 +130,7 @@ std::optional<std::string> StartMicrosoftLoginListener(const std::string& url)
 
         // - browser response.
         std::string redirect;
-        std::ifstream file("mcapi_redirect.html", std::ios::binary);
+        std::ifstream file("crystal_redirect.html", std::ios::binary);
         if (file)
         {
             std::ostringstream redirectbuffer;

@@ -1,6 +1,6 @@
 #include "api.hpp"
 
-namespace mcapi
+namespace crystal
 {
 
 // - helpers.
@@ -188,6 +188,7 @@ std::optional<std::string> GetVersionJsonDownloadUrl(const std::string& manifest
     {
         return std::nullopt;
     }
+    return std::nullopt;
 }
 
 std::optional<std::string> DownloadVersionJson(const std::string& jsonurl, const std::string& versionid)
@@ -675,10 +676,10 @@ std::optional<std::string> GetLaunchCommand(const std::string& username, const s
             {"version_type", j.value("type", "release")},
             {"classpath", classpath},
             {"natives_directory", nativesdir.string()},
-            {"launcher_name", "mcapi"},
+            {"launcher_name", "crystal_launcher"},
             {"launcher_version", "1.0"},
             {"user_properties", "{}"},
-            {"clientid", "mcapi"}, 
+            {"clientid", "crystal"}, 
             {"auth_xuid", "0"}
         };
         std::vector<std::string> jvmargs;

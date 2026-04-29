@@ -23,11 +23,11 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>mcapi launcher</string>
+   <string>crystal launcher</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="resources.qrc">
-    <normaloff>:/gfx/mcapi_gui.png</normaloff>:/gfx/mcapi_gui.png</iconset>
+   <iconset>
+    <normaloff>:/gfx/crystal_gui.png</normaloff>:/gfx/crystal_gui.png</iconset>
   </property>
   <widget class="QStackedWidget" name="pages">
    <property name="geometry">
@@ -57,10 +57,10 @@
     <widget class="QPushButton" name="offlinebutton">
      <property name="geometry">
       <rect>
-       <x>495</x>
-       <y>110</y>
-       <width>111</width>
-       <height>51</height>
+       <x>480</x>
+       <y>120</y>
+       <width>141</width>
+       <height>41</height>
       </rect>
      </property>
      <property name="text">
@@ -70,30 +70,17 @@
     <widget class="QLabel" name="logologin">
      <property name="geometry">
       <rect>
-       <x>486</x>
+       <x>460</x>
        <y>30</y>
-       <width>131</width>
-       <height>41</height>
+       <width>180</width>
+       <height>60</height>
       </rect>
      </property>
      <property name="text">
       <string/>
      </property>
      <property name="pixmap">
-      <pixmap resource="resources.qrc">:/gfx/mcapi_logo.png</pixmap>
-     </property>
-    </widget>
-    <widget class="QLabel" name="loginwip">
-     <property name="geometry">
-      <rect>
-       <x>515</x>
-       <y>620</y>
-       <width>91</width>
-       <height>16</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>login page WIP.</string>
+      <pixmap resource="resources.qrc">:/gfx/crystal_logo.png</pixmap>
      </property>
     </widget>
     <widget class="QLabel" name="loginbackground">
@@ -109,7 +96,7 @@
       <string/>
      </property>
      <property name="pixmap">
-      <pixmap resource="resources.qrc">:/gfx/mcapi_background_login.png</pixmap>
+      <pixmap resource="resources.qrc">:/gfx/crystal_background_login.png</pixmap>
      </property>
     </widget>
     <widget class="QPushButton" name="loginmicrosoftbutton">
@@ -118,14 +105,21 @@
      </property>
      <property name="geometry">
       <rect>
-       <x>495</x>
+       <x>470</x>
        <y>180</y>
-       <width>111</width>
-       <height>51</height>
+       <width>161</width>
+       <height>41</height>
       </rect>
      </property>
+     <property name="autoFillBackground">
+      <bool>false</bool>
+     </property>
      <property name="text">
-      <string>Microsoft login</string>
+      <string>  Sign in with Microsoft</string>
+     </property>
+     <property name="icon">
+      <iconset resource="resources.qrc">
+       <normaloff>:/gfx/microsoft.png</normaloff>:/gfx/microsoft.png</iconset>
      </property>
     </widget>
     <widget class="QLabel" name="copyrightnote">
@@ -150,7 +144,7 @@
        <x>495</x>
        <y>270</y>
        <width>111</width>
-       <height>51</height>
+       <height>41</height>
       </rect>
      </property>
      <property name="text">
@@ -182,7 +176,6 @@
     <zorder>loginbackground</zorder>
     <zorder>offlinebutton</zorder>
     <zorder>logologin</zorder>
-    <zorder>loginwip</zorder>
     <zorder>loginmicrosoftbutton</zorder>
     <zorder>copyrightnote</zorder>
     <zorder>logincancelbutton</zorder>
@@ -322,17 +315,17 @@
     <widget class="QLabel" name="logo">
      <property name="geometry">
       <rect>
-       <x>110</x>
-       <y>30</y>
-       <width>131</width>
-       <height>41</height>
+       <x>85</x>
+       <y>18</y>
+       <width>180</width>
+       <height>60</height>
       </rect>
      </property>
      <property name="text">
       <string/>
      </property>
      <property name="pixmap">
-      <pixmap resource="resources.qrc">:/gfx/mcapi_logo.png</pixmap>
+      <pixmap resource="resources.qrc">:/gfx/crystal_logo.png</pixmap>
      </property>
     </widget>
     <widget class="QLabel" name="launcherbackground">
@@ -348,7 +341,7 @@
       <string/>
      </property>
      <property name="pixmap">
-      <pixmap resource="resources.qrc">:/gfx/mcapi_background_launcher.png</pixmap>
+      <pixmap resource="resources.qrc">:/gfx/crystal_background_launcher.png</pixmap>
      </property>
     </widget>
     <widget class="QComboBox" name="loaderbox">

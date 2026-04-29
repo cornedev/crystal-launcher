@@ -7,7 +7,7 @@ The goal of this project is to create a lightweight launcher that can be used an
 
 This was started as a school project to play Minecraft at school because everything was blocked, so I made this alongside the possibilities in our school. 
 
-Download the latest builds at the [builds branch](https://github.com/cornedev/crystal_launcher/tree/builds).
+Download the latest builds at the [builds branch](https://github.com/cornedev/crystal-launcher/tree/builds).
 
 Note: the builds are broken at the moment. Github actions still needs fixing. Please download the latest release from the releases tab.
 
@@ -38,8 +38,8 @@ I can't guarantee the cli application will still work in future API changes.
     ```
 3. Clone this repository:
    ```sh
-   git clone --recurse-submodules https://github.com/cornedev/crystal_launcher.git
-   cd crystal_launcher/cli
+   git clone --recurse-submodules https://github.com/cornedev/crystal-launcher.git
+   cd crystal-launcher/cli
    ```
 4. Build the application:
    ```sh
@@ -59,8 +59,8 @@ That's it. The executable will be in `/build/` and all dependencies will be auto
 
 2. Clone this repository:
    ```sh
-   git clone --recurse-submodules https://github.com/cornedev/crystal_launcher.git
-   cd crystal_launcher/cli
+   git clone --recurse-submodules https://github.com/cornedev/crystal-launcher.git
+   cd crystal-launcher/cli
    ```
 3. Build the application:
    ```sh
@@ -87,7 +87,7 @@ That's it. The executable will be in `/build/` and you can run it with:
     ```
 3. Clone this repository:
    ```sh
-   git clone --recurse-submodules https://github.com/cornedev/crystal_launcher.git
+   git clone --recurse-submodules https://github.com/cornedev/crystal-launcher.git
    cd crystal/gui
    ```
 4. Build the application:
@@ -110,8 +110,8 @@ That's it. The executable will be in `/build/` and all dependencies will be auto
 
 2. Clone this repository:
    ```sh
-   git clone --recurse-submodules https://github.com/cornedev/crystal_launcher.git
-   cd crystal_launcher/gui
+   git clone --recurse-submodules https://github.com/cornedev/crystal-launcher.git
+   cd crystal-launcher/gui
    ```
 3. Build the application:
    ```sh
@@ -138,7 +138,7 @@ If you ever want to clean or rebuild (for both applications):
 
 ### launcher
 <img src="gfx/crystal_login_showcase.png" width="450">
-<img src="gfx/crystal_launcher_showcase.png" width="450">
+<img src="gfx/crystal-launcher_showcase.png" width="450">
 
 ## License
 All the code is licensed under the [MIT license](LICENSE).

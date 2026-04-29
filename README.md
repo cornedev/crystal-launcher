@@ -138,7 +138,7 @@ If you ever want to clean or rebuild (for both applications):
 
 ### launcher
 <img src="gfx/crystal_login_showcase.png" width="450">
-<img src="gfx/crystal-launcher_showcase.png" width="450">
+<img src="gfx/crystal_launcher_showcase.png" width="450">
 
 ## License
 All the code is licensed under the [MIT license](LICENSE).

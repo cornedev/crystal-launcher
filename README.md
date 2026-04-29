@@ -7,17 +7,17 @@ The goal of this project is to create a lightweight launcher that can be used an
 
 This was started as a school project to play Minecraft at school because everything was blocked, so I made this alongside the possibilities in our school. 
 
-Download the latest builds at the [builds branch](https://github.com/cornedev/crystal/tree/builds).
+Download the latest builds at the [builds branch](https://github.com/cornedev/crystal_launcher/tree/builds).
 
 Note: the builds are broken at the moment. Github actions still needs fixing. Please download the latest release from the releases tab.
 
 ## Features
 - Launcher
-    - Full [vanilla](https://github.com/cornedev/crystal/blob/main/api/crystal_vanilla.cpp) downloading support (all assets & launching needs).
-    - Full [fabric](https://github.com/cornedev/crystal/blob/main/api/crystal_fabric.cpp) downloading support.
-    - [Minecraft starting](https://github.com/cornedev/crystal/blob/main/api/crystal_process.cpp) support.
-    - [Java downloading](https://github.com/cornedev/crystal/blob/main/api/crystal_java.cpp) support using the adoptium API.
-    - Official [Microsoft account authentication](https://github.com/cornedev/crystal/blob/main/api/crystal_auth.cpp) with mojang servers.
+    - Full [vanilla](api/crystal_vanilla.cpp) downloading support (all assets & launching needs).
+    - Full [fabric](api/crystal_fabric.cpp) downloading support.
+    - [Minecraft starting](api/crystal_process.cpp) support.
+    - [Java downloading](api/crystal_java.cpp) support using the adoptium API.
+    - Official [Microsoft account authentication](api/crystal_auth.cpp) with mojang servers.
     - Full cross-platform support (windows, macos and linux).
 ## Planned
 - Server process starting.
@@ -38,8 +38,8 @@ I can't guarantee the cli application will still work in future API changes.
     ```
 3. Clone this repository:
    ```sh
-   git clone --recurse-submodules https://github.com/cornedev/crystal.git
-   cd crystal/cli
+   git clone --recurse-submodules https://github.com/cornedev/crystal_launcher.git
+   cd crystal_launcher/cli
    ```
 4. Build the application:
    ```sh
@@ -59,8 +59,8 @@ That's it. The executable will be in `/build/` and all dependencies will be auto
 
 2. Clone this repository:
    ```sh
-   git clone --recurse-submodules https://github.com/cornedev/crystal.git
-   cd crystal/cli
+   git clone --recurse-submodules https://github.com/cornedev/crystal_launcher.git
+   cd crystal_launcher/cli
    ```
 3. Build the application:
    ```sh
@@ -72,7 +72,7 @@ That's it. The executable will be in `/build/` and all dependencies will be auto
    ```
 That's it. The executable will be in `/build/` and you can run it with:
    ```sh
-   ./build/crystal_cli
+   ./build/mcapi_cli
    ```
 
 ## launcher
@@ -87,7 +87,7 @@ That's it. The executable will be in `/build/` and you can run it with:
     ```
 3. Clone this repository:
    ```sh
-   git clone --recurse-submodules https://github.com/cornedev/crystal.git
+   git clone --recurse-submodules https://github.com/cornedev/crystal_launcher.git
    cd crystal/gui
    ```
 4. Build the application:
@@ -110,8 +110,8 @@ That's it. The executable will be in `/build/` and all dependencies will be auto
 
 2. Clone this repository:
    ```sh
-   git clone --recurse-submodules https://github.com/cornedev/crystal.git
-   cd crystal/gui
+   git clone --recurse-submodules https://github.com/cornedev/crystal_launcher.git
+   cd crystal_launcher/gui
    ```
 3. Build the application:
    ```sh
@@ -123,7 +123,7 @@ That's it. The executable will be in `/build/` and all dependencies will be auto
    ```
 That's it. The executable will be in `/build/` and you can run it with:
    ```sh
-   ./build/crystal_gui
+   ./build/crystal
    ```
 
 <br>

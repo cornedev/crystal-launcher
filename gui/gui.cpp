@@ -27,6 +27,9 @@ gui::gui(QWidget *parent)
     // - cancel login button.
     ui->logincancelbutton->hide();
 
+    // - microsoft login button styling.
+    ui->loginmicrosoftbutton->setStyleSheet("background-color: white; color: #616161;");
+
     // - pages.
     ui->pages->setCurrentIndex(0);
 

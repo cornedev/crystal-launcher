@@ -188,6 +188,7 @@ std::optional<std::string> GetVersionJsonDownloadUrl(const std::string& manifest
     {
         return std::nullopt;
     }
+    return std::nullopt;
 }
 
 std::optional<std::string> DownloadVersionJson(const std::string& jsonurl, const std::string& versionid)

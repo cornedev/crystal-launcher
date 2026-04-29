@@ -26,7 +26,7 @@
    <string>crystal launcher</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="resources.qrc">
+   <iconset>
     <normaloff>:/gfx/crystal_gui.png</normaloff>:/gfx/crystal_gui.png</iconset>
   </property>
   <widget class="QStackedWidget" name="pages">
@@ -57,10 +57,10 @@
     <widget class="QPushButton" name="offlinebutton">
      <property name="geometry">
       <rect>
-       <x>495</x>
-       <y>110</y>
-       <width>111</width>
-       <height>51</height>
+       <x>480</x>
+       <y>120</y>
+       <width>141</width>
+       <height>41</height>
       </rect>
      </property>
      <property name="text">
@@ -105,14 +105,21 @@
      </property>
      <property name="geometry">
       <rect>
-       <x>495</x>
+       <x>470</x>
        <y>180</y>
-       <width>111</width>
-       <height>51</height>
+       <width>161</width>
+       <height>41</height>
       </rect>
      </property>
+     <property name="autoFillBackground">
+      <bool>false</bool>
+     </property>
      <property name="text">
-      <string>Microsoft login</string>
+      <string>  Sign in with Microsoft</string>
+     </property>
+     <property name="icon">
+      <iconset resource="resources.qrc">
+       <normaloff>:/gfx/microsoft.png</normaloff>:/gfx/microsoft.png</iconset>
      </property>
     </widget>
     <widget class="QLabel" name="copyrightnote">
@@ -137,7 +144,7 @@
        <x>495</x>
        <y>270</y>
        <width>111</width>
-       <height>51</height>
+       <height>41</height>
       </rect>
      </property>
      <property name="text">

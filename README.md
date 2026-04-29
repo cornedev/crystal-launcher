@@ -1,6 +1,6 @@
 <p align="center"><img width="256px" src="gfx/crystal_builds.png"></p>
 
-# mcapi
+# crystal launcher
 A lightweight minecraft launcher.
 
 This is the builds branch, you can find the latest builds provided by GitHub actions here.

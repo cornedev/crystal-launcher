@@ -20,6 +20,7 @@ Note: the builds are broken at the moment. Github actions still needs fixing. Pl
     - Official [Microsoft account authentication](api/crystal_auth.cpp) with mojang servers.
     - Full cross-platform support (windows, macos and linux).
 ## Planned
+- Discord rich presence.
 - Server process starting.
 - Skin support.
 

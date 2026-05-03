@@ -40,11 +40,14 @@ qt_add_executable(crystal
     console.h console.cpp console.ui
 )
 
+target_include_directories(crystal PRIVATE
+    ${RUNTIME_DIR}/include
+)
+
 target_link_libraries(crystal PRIVATE
     Qt::Core
     Qt::Widgets
     Qt::Concurrent
-    ${RUNTIME_DIR}/include
 )
 
 install(TARGETS crystal

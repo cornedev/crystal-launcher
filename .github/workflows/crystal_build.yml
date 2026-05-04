@@ -1,4 +1,4 @@
-name: build mcapi_gui
+name: build crystal
 
 permissions:
   contents: write
@@ -21,12 +21,12 @@ on:
       - '**/**/*.hpp'
 
 concurrency:
-  group: mcapi-gui-builds
+  group: crystal-builds
   cancel-in-progress: true
 
 jobs:
   build-linux:
-    name: build mcapi_gui (linux)
+    name: build crystal (linux)
     runs-on: ubuntu-latest
 
     steps:
@@ -53,15 +53,15 @@ jobs:
 
       - name: create package
         run: |
-          tar -czf mcapi_gui-linux.tar.gz -C gui/build .
+          tar -czf crystal-linux.tar.gz -C gui/build .
 
       - uses: actions/upload-artifact@v4
         with:
           name: linux-build
-          path: mcapi_gui-linux.tar.gz
+          path: crystal-linux.tar.gz
 
   build-macos:
-    name: build mcapi_gui (macos)
+    name: build crystal (macos)
     runs-on: macos-latest
 
     steps:
@@ -83,15 +83,15 @@ jobs:
 
       - name: create package
         run: |
-          tar -czf mcapi_gui-macos.tar.gz -C gui/build .
+          tar -czf crystal-macos.tar.gz -C gui/build .
 
       - uses: actions/upload-artifact@v4
         with:
           name: macos-build
-          path: mcapi_gui-macos.tar.gz
+          path: crystal-macos.tar.gz
 
   build-windows-mingw:
-    name: build mcapi_gui (windows)
+    name: build crystal (windows)
     runs-on: windows-latest
 
     steps:
@@ -120,12 +120,12 @@ jobs:
       - name: create package
         shell: pwsh
         run: |
-          Compress-Archive -Path gui/build/* -DestinationPath mcapi_gui-windows.zip
+          Compress-Archive -Path gui/build/* -DestinationPath crystal-windows.zip
 
       - uses: actions/upload-artifact@v4
         with:
           name: windows-build
-          path: mcapi_gui-windows.zip
+          path: crystal-windows.zip
 
   publish:
     name: publish builds
@@ -146,9 +146,9 @@ jobs:
         run: |
           mkdir -p builds/gui/linux builds/gui/macos builds/gui/windows
   
-          cp artifacts/linux-build/* builds/gui/linux/mcapi_gui.tar.gz
-          cp artifacts/macos-build/* builds/gui/macos/mcapi_gui.tar.gz
-          cp artifacts/windows-build/* builds/gui/windows/mcapi_gui.zip
+          cp artifacts/linux-build/* builds/gui/linux/crystal.tar.gz
+          cp artifacts/macos-build/* builds/gui/macos/crystal.tar.gz
+          cp artifacts/windows-build/* builds/gui/windows/crystal.zip
   
       - name: push builds
         run: |

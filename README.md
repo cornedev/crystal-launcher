@@ -108,6 +108,7 @@ That's it. The executable will be in `/build/` and all dependencies will be auto
    - [Qt](https://github.com/qt)
    - [curl](https://github.com/curl/curl)
    - [cmake](https://github.com/Kitware/CMake)
+   - [xdg-utils](https://github.com/sailfishos-mirror/xdg-utils)
 
 2. Clone this repository:
    ```sh

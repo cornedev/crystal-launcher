@@ -25,58 +25,6 @@ Note: the builds are broken at the moment. Github actions still needs fixing. Pl
 - Skin support.
 
 ## Building
-## cli
-Note: the cli application is not being updated anymore and is very outdated, it's archived and located [here.](api/archived/cli) if you still would like to build it, make sure to move the cli folder to the repository root first.
-
-I can't guarantee the cli application will still work in future API changes.
-### Windows
-1. Download the latest version of [MSYS2](https://www.msys2.org/). After installation open the MINGW64 shell.
-2. Install the following dependencies:
-    ```sh
-    pacman -S mingw-w64-x86_64-libarchive
-    pacman -S mingw-w64-x86_64-nlohmann-json
-    pacman -S mingw-w64-x86_64-cmake
-    ```
-3. Clone this repository:
-   ```sh
-   git clone --recurse-submodules https://github.com/cornedev/crystal-launcher.git
-   cd crystal-launcher/cli
-   ```
-4. Build the application:
-   ```sh
-   cmake -S . -B build
-   ```
-   and then:
-   ```sh
-   cmake --build build
-   ```
-That's it. The executable will be in `/build/` and all dependencies will be automatically copied from `/runtime/bin/`
-
-### Linux
-1. Get the following dependencies on your system:
-   - [nlohmann/json](https://github.com/nlohmann/json)
-   - [libarchive](https://github.com/libarchive/libarchive)
-   - [cmake](https://github.com/Kitware/CMake)
-
-2. Clone this repository:
-   ```sh
-   git clone --recurse-submodules https://github.com/cornedev/crystal-launcher.git
-   cd crystal-launcher/cli
-   ```
-3. Build the application:
-   ```sh
-   cmake -S . -B build
-   ```
-   and then:
-   ```sh
-   cmake --build build
-   ```
-That's it. The executable will be in `/build/` and you can run it with:
-   ```sh
-   ./build/mcapi_cli
-   ```
-
-## launcher
 ### Windows
 1. Download the latest version of [MSYS2](https://www.msys2.org/). After installation open the MINGW64 shell.
 2. Install the following dependencies:

@@ -24,6 +24,29 @@ gui::gui(QWidget *parent)
     instance = this;
     qInstallMessageHandler(ConsoleHandler);
 
+    // - discord rich presence.
+    crystal::discord::StartRichPresence();
+    rpctimer = new QTimer(this);
+    connect(rpctimer, &QTimer::timeout, []()
+    {
+        Discord_RunCallbacks();
+    });
+    rpctimer->start(2000);
+
+    // - update discord rich precense based on page.
+    connect(ui->pages, &QStackedWidget::currentChanged, this, [this](int index) 
+    {
+    if (index == 0)
+    {
+        crystal::discord::RemoveRichPresenceSmall();
+        crystal::discord::SetRichPresenceDetails("idling...");
+    }
+    else if (index == 1)
+    {
+        crystal::discord::SetRichPresenceDetails("choosing a version...");
+    }
+    });
+
     // - cancel login button.
     ui->logincancelbutton->hide();
 
@@ -111,6 +134,11 @@ gui::gui(QWidget *parent)
 gui::~gui()
 {
     crystal::auth::StopMicrosoftLoginListener();
+    if (rpctimer)
+    {
+        rpctimer->stop();
+    }
+    Discord_Shutdown();
     qInstallMessageHandler(0);
     instance = nullptr;
     delete ui;
@@ -206,6 +234,8 @@ void gui::GetVersions()
 
 bool gui::StartVersion(const QString &username, const QString &loaderselected, const QString &versionselected, const QString &archselected, const QString &osselected)
 {
+    crystal::discord::SetRichPresenceDetails("launching " + versionselected.toStdString());
+    
     if (loaderselected == "vanilla")
     {
         // - download manifest.
@@ -445,6 +475,7 @@ bool gui::StartVersion(const QString &username, const QString &loaderselected, c
         }
         else
         {
+            crystal::discord::SetRichPresenceDetails("playing minecraft " + versionselected.toStdString());
             QMetaObject::invokeMethod(this, [this](){QMessageBox::information(this, "info", "Minecraft launched.");}, Qt::QueuedConnection);
             return true;
         }
@@ -720,6 +751,7 @@ bool gui::StartVersion(const QString &username, const QString &loaderselected, c
         }
         else
         {
+            crystal::discord::SetRichPresenceDetails("playing minecraft fabric " + versionselected.toStdString());
             QMetaObject::invokeMethod(this, [this](){QMessageBox::information(this, "info", "Minecraft launched.");}, Qt::QueuedConnection);
             return true;
         }
@@ -739,6 +771,15 @@ void gui::on_startbutton_clicked()
         return;
     }
 
+    if (!microsoft)
+    {
+        crystal::discord::SetRichPresenceSmall(username.toStdString());
+    }
+    else if (microsoft)
+    {
+        crystal::discord::SetRichPresenceSmall(microsoftusername, microsoftuuid);
+    }
+
     ui->startbutton->setEnabled(false);
 
     QFuture<void> future = QtConcurrent::run([this]()
@@ -753,6 +794,8 @@ void gui::on_startbutton_clicked()
         {
             QThread::sleep(1);
         }
+        crystal::discord::RemoveRichPresenceSmall();
+        crystal::discord::SetRichPresenceDetails("choosing a version...");
         processrunning = false;
         QMetaObject::invokeMethod(ui->startbutton, "setEnabled", Qt::QueuedConnection, Q_ARG(bool, true));
     });
@@ -766,6 +809,7 @@ void gui::on_stopbutton_clicked()
     }
     else
     {
+        crystal::discord::SetRichPresenceDetails("choosing a version...");
         QMessageBox::information(this, "info", "Minecraft stopped.");
         processrunning = false;
         ui->startbutton->setEnabled(true);

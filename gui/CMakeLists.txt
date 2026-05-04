@@ -36,6 +36,7 @@ qt_add_executable(crystal
     ../api/crystal_fabric.cpp
     ../api/crystal_auth.cpp
     ../api/crystal_http.cpp
+    ../api/crystal_discord.cpp
     ${ICON_RC}
     console.h console.cpp console.ui
 )

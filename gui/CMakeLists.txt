@@ -71,12 +71,14 @@ elseif(APPLE)
         CURL::libcurl
         LibArchive::LibArchive
         nlohmann_json::nlohmann_json
+        ${RUNTIME_DIR}/lib/libdiscord-rpc-macos.a
     )
 else()
     target_link_libraries(crystal PRIVATE
         CURL::libcurl
         LibArchive::LibArchive
         nlohmann_json::nlohmann_json
+        ${RUNTIME_DIR}/lib/libdiscord-rpc-linux.a
     )
 endif()
 

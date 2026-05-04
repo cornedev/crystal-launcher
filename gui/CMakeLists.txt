@@ -63,6 +63,7 @@ if (WIN32)
         ${CURL_LIB}
         LibArchive::LibArchive
         nlohmann_json::nlohmann_json
+        ${RUNTIME_DIR}/lib/libdiscord-rpc.dll.a
         -lws2_32
     )
 elseif(APPLE)

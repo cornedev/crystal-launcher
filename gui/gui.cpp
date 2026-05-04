@@ -38,6 +38,7 @@ gui::gui(QWidget *parent)
     {
     if (index == 0)
     {
+        crystal::discord::SetRichPresenceImage("crystal");
         crystal::discord::RemoveRichPresenceSmall();
         crystal::discord::SetRichPresenceDetails("idling...");
     }
@@ -234,10 +235,10 @@ void gui::GetVersions()
 
 bool gui::StartVersion(const QString &username, const QString &loaderselected, const QString &versionselected, const QString &archselected, const QString &osselected)
 {
-    crystal::discord::SetRichPresenceDetails("launching " + versionselected.toStdString());
-    
     if (loaderselected == "vanilla")
     {
+        crystal::discord::SetRichPresenceDetails("launching vanilla " + versionselected.toStdString());
+        crystal::discord::SetRichPresenceImage("vanilla");
         // - download manifest.
         auto manifestopt = crystal::vanilla::DownloadVersionManifest();
         if (!manifestopt)
@@ -482,6 +483,8 @@ bool gui::StartVersion(const QString &username, const QString &loaderselected, c
     }
     else if (loaderselected == "fabric")
     {
+        crystal::discord::SetRichPresenceImage("fabric");
+        crystal::discord::SetRichPresenceDetails("launching fabric " + versionselected.toStdString());
         // - download fabric meta.
         auto meta = crystal::fabric::DownloadVersionMeta();
 
@@ -794,6 +797,7 @@ void gui::on_startbutton_clicked()
         {
             QThread::sleep(1);
         }
+        crystal::discord::SetRichPresenceImage("crystal");
         crystal::discord::RemoveRichPresenceSmall();
         crystal::discord::SetRichPresenceDetails("choosing a version...");
         processrunning = false;

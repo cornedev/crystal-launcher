@@ -7,9 +7,12 @@ namespace crystal
 static DiscordRichPresence presence;
 static std::string smallimagekey;
 static std::string smallimagetext;
+static std::string largeimagekey;
+static std::string largeimagetext;
 static std::string rpcdetails;
 static std::string buttonlabel;
 static std::string buttonurl;
+static int time = 0;
 // - end helper defines.
 
 namespace discord
@@ -22,8 +25,13 @@ namespace discord
 
         std::memset(&presence, 0, sizeof(presence));
 
-        presence.largeImageKey = "crystal";
-        presence.largeImageText = "crystal launcher";
+        time = std::time(nullptr);
+        presence.startTimestamp = time;
+
+        largeimagekey = "crystal";
+        largeimagetext = "crystal launcher";
+        presence.largeImageKey = largeimagekey.c_str();
+        presence.largeImageText = largeimagetext.c_str();
 
         buttonlabel = "view project";
         buttonurl = "https://github.com/cornedev/crystal-launcher";
@@ -31,6 +39,15 @@ namespace discord
         presence.button1_url = buttonurl.c_str();
         
         SetRichPresenceDetails("idling...");
+
+        Discord_UpdatePresence(&presence);
+        return true;
+    }
+
+    bool SetRichPresenceImage(const std::string& image)
+    {
+        largeimagekey = image;
+        presence.largeImageKey = largeimagekey.c_str();
 
         Discord_UpdatePresence(&presence);
         return true;

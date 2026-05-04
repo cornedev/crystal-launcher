@@ -12,7 +12,7 @@ static std::string largeimagetext;
 static std::string rpcdetails;
 static std::string buttonlabel;
 static std::string buttonurl;
-static int time = 0;
+static int64_t time = 0;
 // - end helper defines.
 
 namespace discord

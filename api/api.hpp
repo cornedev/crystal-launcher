@@ -16,6 +16,7 @@ typedef int socket_t;
 #endif
 
 #include <QDebug>
+#include <discord_rpc.h>
 #include <curl/curl.h>
 #include <iostream>
 #include <string>
@@ -36,7 +37,7 @@ namespace crystal
 {
     inline fs::path datapath = ".crystal";
     using argsmap = std::unordered_map<std::string, std::string>;
-
+    
     enum class GETmode
     {
         MemoryOnly,
@@ -127,6 +128,15 @@ namespace crystal
         std::optional<std::string> GetMinecraftProfileJson(const std::string& minecrafttoken);
         std::optional<std::string> GetUsernameFromProfileJson(const std::string& profilejson);
         std::optional<std::string> GetUuidFromProfileJson(const std::string& profilejson);
+    }
+
+    namespace discord
+    {
+        bool StartRichPresence();
+        bool SetRichPresenceImage(const std::string& image);
+        bool SetRichPresenceSmall(const std::string& username, const std::string& uuid = "00000000-0000-0000-0000-000000000000");
+        bool RemoveRichPresenceSmall();
+        bool SetRichPresenceDetails(const std::string& details);
     }
 
     std::optional<int> GetJavaVersion(const std::string& versionjson);

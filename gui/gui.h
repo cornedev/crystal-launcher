@@ -43,6 +43,8 @@ private slots:
 private:
     Ui::gui *ui;
 
+    QTimer* rpctimer;
+
     std::optional<std::vector<std::string>> versionsvanilla;
     std::optional<std::vector<std::string>> versionsfabric;
 

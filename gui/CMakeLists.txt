@@ -36,6 +36,7 @@ qt_add_executable(crystal
     ../api/crystal_fabric.cpp
     ../api/crystal_auth.cpp
     ../api/crystal_http.cpp
+    ../api/crystal_discord.cpp
     ${ICON_RC}
     console.h console.cpp console.ui
 )
@@ -62,6 +63,7 @@ if (WIN32)
         ${CURL_LIB}
         LibArchive::LibArchive
         nlohmann_json::nlohmann_json
+        ${RUNTIME_DIR}/lib/libdiscord-rpc.dll.a
         -lws2_32
     )
 elseif(APPLE)

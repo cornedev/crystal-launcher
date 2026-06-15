@@ -51,7 +51,7 @@
     </size>
    </property>
    <property name="currentIndex">
-    <number>0</number>
+    <number>1</number>
    </property>
    <widget class="QWidget" name="login">
     <widget class="QPushButton" name="offlinebutton">
@@ -240,59 +240,13 @@
       <enum>QComboBox::SizeAdjustPolicy::AdjustToContentsOnFirstShow</enum>
      </property>
     </widget>
-    <widget class="QLabel" name="os">
-     <property name="geometry">
-      <rect>
-       <x>167</x>
-       <y>260</y>
-       <width>81</width>
-       <height>16</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>OS</string>
-     </property>
-    </widget>
-    <widget class="QComboBox" name="osbox">
-     <property name="geometry">
-      <rect>
-       <x>100</x>
-       <y>280</y>
-       <width>151</width>
-       <height>24</height>
-      </rect>
-     </property>
-    </widget>
-    <widget class="QLabel" name="arch">
-     <property name="geometry">
-      <rect>
-       <x>163</x>
-       <y>320</y>
-       <width>81</width>
-       <height>16</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Arch</string>
-     </property>
-    </widget>
-    <widget class="QComboBox" name="archbox">
-     <property name="geometry">
-      <rect>
-       <x>100</x>
-       <y>340</y>
-       <width>151</width>
-       <height>24</height>
-      </rect>
-     </property>
-    </widget>
     <widget class="QPushButton" name="startbutton">
      <property name="geometry">
       <rect>
        <x>80</x>
-       <y>420</y>
+       <y>290</y>
        <width>191</width>
-       <height>41</height>
+       <height>51</height>
       </rect>
      </property>
      <property name="text">
@@ -303,9 +257,9 @@
      <property name="geometry">
       <rect>
        <x>80</x>
-       <y>480</y>
+       <y>360</y>
        <width>191</width>
-       <height>41</height>
+       <height>51</height>
       </rect>
      </property>
      <property name="text">
@@ -380,7 +334,7 @@
      <property name="geometry">
       <rect>
        <x>80</x>
-       <y>540</y>
+       <y>560</y>
        <width>191</width>
        <height>41</height>
       </rect>
@@ -407,10 +361,6 @@
     <zorder>username</zorder>
     <zorder>usernameinput</zorder>
     <zorder>versionbox</zorder>
-    <zorder>os</zorder>
-    <zorder>osbox</zorder>
-    <zorder>arch</zorder>
-    <zorder>archbox</zorder>
     <zorder>startbutton</zorder>
     <zorder>stopbutton</zorder>
     <zorder>logo</zorder>

@@ -34,18 +34,19 @@ gui::gui(QWidget *parent)
     rpctimer->start(2000);
 
     // - update discord rich precense based on page.
-    connect(ui->pages, &QStackedWidget::currentChanged, this, [this](int index) 
+    connect(ui->pages, &QStackedWidget::currentChanged, this, [this](int index)
     {
-    if (index == 0)
-    {
-        crystal::discord::SetRichPresenceImage("crystal");
-        crystal::discord::RemoveRichPresenceSmall();
-        crystal::discord::SetRichPresenceDetails("idling...");
-    }
-    else if (index == 1)
-    {
-        crystal::discord::SetRichPresenceDetails("choosing a version...");
-    }
+        if (index == 0)
+        {
+            crystal::discord::SetRichPresenceImage("crystal");
+            crystal::discord::RemoveRichPresenceSmall();
+            crystal::discord::SetRichPresenceDetails("idling...");
+        }
+        else if (index == 1)
+        {
+            crystal::discord::SetRichPresenceDetails("choosing a version...");
+        }
+        crystal::discord::UpdateRichPresence();
     });
 
     // - cancel login button.
@@ -112,21 +113,33 @@ gui::gui(QWidget *parent)
     GetVersions();
     connect(ui->versionbox, &QComboBox::currentTextChanged, this, &gui::on_versioncombo_changed);
 
-    // - os box.
-    ui->osbox->setStyleSheet("QComboBox { combobox-popup: 0; }");
-    ui->osbox->addItem("windows");
-    ui->osbox->addItem("linux");
-    ui->osbox->addItem("macos");
-    osselected = ui->osbox->currentText();
-    connect(ui->osbox, &QComboBox::currentTextChanged, this, &gui::on_oscombo_changed);
+    #ifdef _WIN32
+    osselected = "windows";
+    #endif
 
-    // - arch box.
-    ui->archbox->setStyleSheet("QComboBox { combobox-popup: 0; }");
-    ui->archbox->addItem("x64");
-    ui->archbox->addItem("arm64");
-    ui->archbox->addItem("x32");
-    archselected = ui->archbox->currentText();
-    connect(ui->archbox, &QComboBox::currentTextChanged, this, &gui::on_archcombo_changed);
+    #ifdef __linux__
+    osselected = "linux";
+    #endif
+
+    #ifdef __APPLE__
+    osselected = "macos";
+    #endif
+
+    #if defined(__x86_64__) || defined(_M_X64)
+    archselected = "x64";
+    #endif
+
+    #if defined(__i386__) || defined(_M_IX86)
+    archselected = "x32";
+    #endif
+
+    #if defined(__aarch64__) || defined(_M_ARM64)
+    archselected = "arm64";
+    #endif
+
+    #if defined(__arm__) || defined(_M_ARM)
+    archselected = "x32";
+    #endif
 
     // - username input.
     connect(ui->usernameinput, &QLineEdit::textChanged, this, &gui::on_usernameinput_changed);
@@ -237,8 +250,6 @@ bool gui::StartVersion(const QString &username, const QString &loaderselected, c
 {
     if (loaderselected == "vanilla")
     {
-        crystal::discord::SetRichPresenceDetails("launching vanilla " + versionselected.toStdString());
-        crystal::discord::SetRichPresenceImage("vanilla");
         // - download manifest.
         auto manifestopt = crystal::vanilla::DownloadVersionManifest();
         if (!manifestopt)
@@ -476,7 +487,9 @@ bool gui::StartVersion(const QString &username, const QString &loaderselected, c
         }
         else
         {
+            crystal::discord::SetRichPresenceImage("vanilla");
             crystal::discord::SetRichPresenceDetails("playing minecraft " + versionselected.toStdString());
+            crystal::discord::UpdateRichPresence();
             QMetaObject::invokeMethod(this, [this](){QMessageBox::information(this, "info", "Minecraft launched.");}, Qt::QueuedConnection);
             return true;
         }
@@ -485,6 +498,7 @@ bool gui::StartVersion(const QString &username, const QString &loaderselected, c
     {
         crystal::discord::SetRichPresenceImage("fabric");
         crystal::discord::SetRichPresenceDetails("launching fabric " + versionselected.toStdString());
+        crystal::discord::UpdateRichPresence();
         // - download fabric meta.
         auto meta = crystal::fabric::DownloadVersionMeta();
 
@@ -755,6 +769,7 @@ bool gui::StartVersion(const QString &username, const QString &loaderselected, c
         else
         {
             crystal::discord::SetRichPresenceDetails("playing minecraft fabric " + versionselected.toStdString());
+            crystal::discord::UpdateRichPresence();
             QMetaObject::invokeMethod(this, [this](){QMessageBox::information(this, "info", "Minecraft launched.");}, Qt::QueuedConnection);
             return true;
         }
@@ -777,10 +792,12 @@ void gui::on_startbutton_clicked()
     if (!microsoft)
     {
         crystal::discord::SetRichPresenceSmall(username.toStdString());
+        crystal::discord::UpdateRichPresence();
     }
     else if (microsoft)
     {
         crystal::discord::SetRichPresenceSmall(microsoftusername, microsoftuuid);
+        crystal::discord::UpdateRichPresence();
     }
 
     ui->startbutton->setEnabled(false);
@@ -800,6 +817,7 @@ void gui::on_startbutton_clicked()
         crystal::discord::SetRichPresenceImage("crystal");
         crystal::discord::RemoveRichPresenceSmall();
         crystal::discord::SetRichPresenceDetails("choosing a version...");
+        crystal::discord::UpdateRichPresence();
         processrunning = false;
         QMetaObject::invokeMethod(ui->startbutton, "setEnabled", Qt::QueuedConnection, Q_ARG(bool, true));
     });
@@ -814,6 +832,7 @@ void gui::on_stopbutton_clicked()
     else
     {
         crystal::discord::SetRichPresenceDetails("choosing a version...");
+        crystal::discord::UpdateRichPresence();
         QMessageBox::information(this, "info", "Minecraft stopped.");
         processrunning = false;
         ui->startbutton->setEnabled(true);

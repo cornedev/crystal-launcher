@@ -132,6 +132,7 @@ namespace crystal
 
     namespace discord
     {
+        void UpdateRichPresence();
         bool StartRichPresence();
         bool SetRichPresenceImage(const std::string& image);
         bool SetRichPresenceSmall(const std::string& username, const std::string& uuid = "00000000-0000-0000-0000-000000000000");

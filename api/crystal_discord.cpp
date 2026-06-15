@@ -17,6 +17,11 @@ static int64_t time = 0;
 
 namespace discord
 {
+    void UpdateRichPresence()
+    {
+        Discord_UpdatePresence(&presence);
+    }
+    
     bool StartRichPresence()
     {
         DiscordEventHandlers handlers{};
@@ -38,9 +43,10 @@ namespace discord
         presence.button1_label = buttonlabel.c_str();
         presence.button1_url = buttonurl.c_str();
         
-        SetRichPresenceDetails("idling...");
+        rpcdetails = "idling...";
+        presence.details = rpcdetails.c_str();
 
-        Discord_UpdatePresence(&presence);
+        UpdateRichPresence();
         return true;
     }
 
@@ -48,8 +54,6 @@ namespace discord
     {
         largeimagekey = image;
         presence.largeImageKey = largeimagekey.c_str();
-
-        Discord_UpdatePresence(&presence);
         return true;
     }
 
@@ -59,17 +63,15 @@ namespace discord
         smallimagetext = username;
         presence.smallImageKey = smallimagekey.c_str();
         presence.smallImageText = smallimagetext.c_str();
-
-        Discord_UpdatePresence(&presence);
         return true;
     }
 
     bool RemoveRichPresenceSmall()
     {
+        smallimagekey.clear();
+        smallimagetext.clear();
         presence.smallImageKey = nullptr;
         presence.smallImageText = nullptr;
-
-        Discord_UpdatePresence(&presence);
         return true;
     }
 
@@ -77,8 +79,6 @@ namespace discord
     {
         rpcdetails = details;
         presence.details = rpcdetails.c_str();
-
-        Discord_UpdatePresence(&presence);
         return true;
     }
 }

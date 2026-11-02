@@ -33,6 +33,7 @@ Note: the builds are broken at the moment. Github actions still needs fixing. Pl
     pacman -S mingw-w64-x86_64-nlohmann-json
     pacman -S mingw-w64-x86_64-qt6
     pacman -S mingw-w64-x86_64-cmake
+    pacman -S mingw-w64-x86_64-gcc
     ```
 3. Clone this repository:
    ```sh

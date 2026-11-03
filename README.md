@@ -9,8 +9,6 @@ This was started as a school project to play Minecraft at school because everyth
 
 Download the latest builds at the [builds branch](https://github.com/cornedev/crystal-launcher/tree/builds).
 
-Note: the builds are broken at the moment. Github actions still needs fixing. Please download the latest release from the releases tab.
-
 ## Features
 - Launcher
     - Full [vanilla](api/crystal_vanilla.cpp) downloading support (all assets & launching needs).

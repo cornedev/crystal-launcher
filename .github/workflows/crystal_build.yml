@@ -110,8 +110,14 @@ jobs:
             mingw-w64-x86_64-cmake
             mingw-w64-x86_64-libarchive
             mingw-w64-x86_64-nlohmann-json
-            mingw-w64-x86_64-qt6
 
+      - name: install Qt 6.11.2
+        shell: msys2 {0}
+        run: | 
+          set -euo pipefail
+          pacman --noconfirm -U https://repo.msys2.org/mingw/mingw64/mingw-w64-x86_64-qt6-base-6.11.2-2-any.pkg.tar.zst
+          version="$(/mingw64/bin/qmake6.exe -query QT_VERSION)"
+          
       - name: build project
         shell: msys2 {0}
         run: |
